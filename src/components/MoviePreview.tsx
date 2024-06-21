@@ -4,6 +4,7 @@ import { buildMovie } from '../utils/buildMovie'
 import { Movie } from 'etro/dist/movie'
 import { MOVIE_HEIGHT, MOVIE_WIDTH, scalePixelValue } from '../utils/movieSizer'
 import { saveBlob } from '../utils/saveBlob'
+import { format, formatDuration, intervalToDuration } from 'date-fns'
 
 type Props = {
   records: FitRecord[]
@@ -12,10 +13,10 @@ export const MoviePreview = ({ records }: Props) => {
   const [movie, setMovie] = useState<Movie | null>(null)
   const [paused, setPaused] = useState<boolean | null>(null)
   const [rendering, setRendering] = useState<boolean | null>(null)
+  const [startTime, setStartTime] = useState<Date | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
-    console.log(canvasRef)
     setMovie(buildMovie(canvasRef.current!, records))
   }, [records])
 
@@ -46,11 +47,14 @@ export const MoviePreview = ({ records }: Props) => {
     if (!movie) return
 
     movie.pause()
+    movie.seek(0)
 
+    setStartTime(new Date())
     setRendering(true)
     const movieBlob = await movie.record({ frameRate: 1 })
 
     saveBlob(movieBlob, 'file.webm')
+    setRendering(false)
   }
 
   return (
@@ -69,7 +73,7 @@ export const MoviePreview = ({ records }: Props) => {
         {paused ? '▶️' : '⏸'}
       </button>
       <button onClick={handleDownloadClick} disabled={rendering ?? false}>
-        {rendering ? 'Rendering...' : 'Render'}
+        {rendering && startTime ? 'Rendering...' : 'Render'}
       </button>
     </>
   )
