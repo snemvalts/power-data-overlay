@@ -1,35 +1,23 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { UploadFile } from './components/UploadFile'
+import { FitRecord, parseFit } from './utils/parseFit'
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+  const [parsedFit, setParsedFit] = useState<FitRecord[] | null>(null)
+
+  const handleUpload = async (file: ArrayBuffer) => {
+    setParsedFit(await parseFit(file))
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {parsedFit === null && <UploadFile onUpload={handleUpload} />}
+      {parsedFit?.map((record) => (
+        <code key={record.timestamp.toISOString()}>
+          {JSON.stringify(record)}
+        </code>
+      ))}
     </>
   )
 }
-
-export default App
