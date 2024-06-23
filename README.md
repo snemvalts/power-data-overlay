@@ -1,4 +1,7 @@
 # power-data-overlay
+![Screenshot 2024-06-23 at 09 42 27](https://github.com/snemvalts/power-data-overlay/assets/3755903/8172cc40-7b99-4579-b41c-607bdfcf24a6)
+
+
 
 [Available here](https://snemvalts.github.io/power-data-overlay/)
 
