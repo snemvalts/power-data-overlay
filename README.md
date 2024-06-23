@@ -1,30 +1,9 @@
-# React + TypeScript + Vite
+# power-data-overlay
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a PoC React implementation of [DashWare](https://dashware.software.informer.com/), an app for adding speed, heart rate, cycling power and cadence overlays to action camera footage.
 
-Currently, two official plugins are available:
+It works by parsing the .FIT file, extracting speed and power data, and using [Etro](https://etrojs.dev/) to render a green screen with the data overlaid. 
+The video can be previewed, rendered, and then imported into a video editor, and the green set as the transparency color.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+The rendering itself is extremely slow, small files <1min are recommended. [File can be trimmed with](https://www.fitfiletools.com/#/remover#view). 
+It can be quite buggy as well, only tested with Garmin files with 1s recording interval. 
