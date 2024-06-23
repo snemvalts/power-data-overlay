@@ -4,7 +4,6 @@ import { buildMovie } from '../utils/buildMovie'
 import { Movie } from 'etro/dist/movie'
 import { MOVIE_HEIGHT, MOVIE_WIDTH, scalePixelValue } from '../utils/movieSizer'
 import { saveBlob } from '../utils/saveBlob'
-import { format, formatDuration, intervalToDuration } from 'date-fns'
 
 type Props = {
   records: FitRecord[]
@@ -58,7 +57,7 @@ export const MoviePreview = ({ records }: Props) => {
   }
 
   return (
-    <>
+    <div style={{ textAlign: 'center' }}>
       <canvas
         ref={canvasRef}
         width={scalePixelValue(MOVIE_WIDTH)}
@@ -66,15 +65,23 @@ export const MoviePreview = ({ records }: Props) => {
         style={{ width: '100%', height: '100%' }}
       ></canvas>
 
-      <button disabled={rendering ?? false} onClick={onRewindClick}>
-        ⏮
-      </button>
-      <button disabled={rendering ?? false} onClick={onPlayPauseClick}>
-        {paused ? '▶️' : '⏸'}
-      </button>
-      <button onClick={handleDownloadClick} disabled={rendering ?? false}>
-        {rendering && startTime ? 'Rendering...' : 'Render'}
-      </button>
-    </>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <button disabled={rendering ?? false} onClick={onRewindClick}>
+          ⏮
+        </button>
+        <button disabled={rendering ?? false} onClick={onPlayPauseClick}>
+          {paused ? '▶️' : '⏸'}
+        </button>
+        <button onClick={handleDownloadClick} disabled={rendering ?? false}>
+          {rendering && startTime ? 'Rendering...' : 'Render'}
+        </button>
+      </div>
+    </div>
   )
 }
